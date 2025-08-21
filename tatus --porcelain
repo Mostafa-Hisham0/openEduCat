@@ -1,0 +1,5 @@
+addons/openeducat_admission/__init__.py
+addons/openeducat_admission/__manifest__.py
+addons/openeducat_admission/models/__init__.py
+addons/openeducat_admission/models/admission.py
+addons/openeducat_admission/security/ir.model.access.csv

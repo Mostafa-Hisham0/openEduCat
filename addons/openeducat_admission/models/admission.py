@@ -237,6 +237,20 @@ class OpAdmission(models.Model):
                 'op.admission') or '/'
 
     def submit_form(self):
+        # Complete any related draft when form is submitted
+        draft_model = self.env['op.admission.draft']
+        
+        # Find related draft by email or user
+        domain = [('is_completed', '=', False)]
+        if self.env.user.id != self.env.ref('base.public_user').id:
+            domain.append(('user_id', '=', self.env.user.id))
+        elif self.email:
+            domain.append(('email', '=', self.email))
+        
+        related_drafts = draft_model.search(domain)
+        for draft in related_drafts:
+            draft.complete_draft(draft.id, self.id)
+        
         self.state = 'submit'
 
     def admission_confirm(self):
